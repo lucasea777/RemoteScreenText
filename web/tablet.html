@@ -1,0 +1,73 @@
+<html>
+
+<body>
+
+  <head>
+  <title>Tablet!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  </head>
+  <textarea readonly></textarea>
+  <div class="controlls" onclick="document.body.webkitRequestFullScreen()">
+      <input id="ip">
+  </div>
+  <style>
+      textarea {
+        position: absolute;
+        top: 0;
+        bottom: 10%;
+        left: 0;
+        right: 0;
+        background-color: red;
+        width: 100% !important;
+        font-size: 10vh;
+      }
+      .controlls {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 10%;
+        background-color: yellow;
+        cursor: pointer;
+      }
+      #ip {
+        display: none;
+        width: 300px;
+        height: 100%;
+        font-size: 100%;
+      }
+  </style>
+</body>
+<script>
+/*var ip = document.getElementById('ip');
+ip.value = "ws://localhost:8082";
+ip.addEventListener('keyup', function(e) {
+    if (e.keyCode == 13)
+        tablet(ip.value);
+});
+tablet(ip.value);
+*/
+tablet(`ws://${location.hostname}:8082`)
+function tablet(url) {
+    let ws = new WebSocket(url);
+    let textarea = document.querySelectorAll('textarea')[0];
+    ws.onopen = function() {
+        ws.send(JSON.stringify({whoami: 'tablet'}));
+    }
+    ws.onmessage = function(msg) {
+        console.log("msg: " + msg.data)
+        let data = JSON.parse(msg.data);
+        if (data.hasOwnProperty('text'))
+            textarea.value = data.text;
+        if (data.hasOwnProperty('ready'))
+            textarea.style.backgroundColor = data.ready ? 'orange' : 'red';
+    }
+    ws.onclose = function() {
+        textarea.style.backgroundColor = 'red';
+    }
+    ws.onerror = function() {
+        textarea.style.backgroundColor = 'red';
+    }
+}
+</script>
+</html>

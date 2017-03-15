@@ -1,0 +1,71 @@
+<html>
+
+<body>
+
+    <head>
+        <title>Controller!</title>
+    </head>
+    <textarea></textarea>
+    <div class="controlls">
+    Entra en tu tablet a: 
+    <span id="ip">
+        
+    </span>
+    </div>
+    <style>
+    textarea {
+        position: absolute;
+        top: 0;
+        bottom: 10%;
+        left: 0;
+        right: 0;
+        background-color: red;
+        width: 100% !important;
+        font-size: 10vh;
+    }
+    
+    .controlls {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 10%;
+        background-color: yellow;
+    }
+    </style>
+</body>
+<script>
+ws = new WebSocket("ws://localhost:8082");
+ws.onopen = function() {
+    ws.send(JSON.stringify({
+        whoami: 'controller'
+    }));
+    let textarea = document.querySelectorAll('textarea')[0];
+    textarea.addEventListener('keyup', function() {
+        ws.send(JSON.stringify({
+            text: textarea.value
+        }));
+    });
+}
+ws.onmessage = function(msg) {
+    console.log("msg: " + msg.data)
+    let data = JSON.parse(msg.data);
+    let textarea = document.querySelectorAll('textarea')[0];
+    if (data.hasOwnProperty('ready'))
+        textarea.style.backgroundColor = data.ready ? 'orange' : 'red';
+}
+ws.onclose = function() {
+    textarea.style.backgroundColor = 'red';
+}
+ws.onerror = function() {
+    textarea.style.backgroundColor = 'red';
+}
+const {ipcRenderer} = require('electron')
+var ipe = document.getElementById('ip');
+var ip = ipcRenderer.sendSync('synchronous-message', 'ip');
+console.log(ip) // prints "pong"
+ipe.textContent = `${ip}:8080/tablet`
+
+</script>
+
+</html>
