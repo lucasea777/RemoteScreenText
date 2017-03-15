@@ -1,22 +1,23 @@
 # Install nodejs
-
 [https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-16-04](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-16-04)
 
 ```bash
-sudo apt-get -y install nodejs npm
+curl -sL https://deb.nodesource.com/setup_6.x | sudo bash
+sudo apt-get -y install nodejs git
 ```
+
+Remember that npm is installed by the nodejs installation!!
+So, _never_ run `sudo apt-get install npm`
 
 # Install Package
 ```bash
 #npm install git+https://git@github.com/visionmedia/express.git
-# Clone this repository
 git clone https://github.com/lucasea777/RemoteScreenText
-# Go into the repository
 cd RemoteScreenText
-# Install dependencies
 npm install
-# Run the app
-npm start
+npm run server
+# y en otra terminal
+npm run control
 ```
 
 Links:
