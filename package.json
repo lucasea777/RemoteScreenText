@@ -11,7 +11,7 @@
     "electron-togglify-window": "^0.1.0",
     "express": "^4.15.2",
     "ip": "^1.1.5",
-    "ws": "^2.2.1"
+    "ws": "^7.2.0"
   },
   "devDependencies": {
     "electron-inspector": "^0.1.4"
