@@ -7,7 +7,7 @@
     "server": "node web/server.js"
   },
   "dependencies": {
-    "electron": "^1.4.1",
+    "electron": "^9.1.0",
     "electron-togglify-window": "^0.1.0",
     "express": "^4.15.2",
     "ip": "^1.1.5",
